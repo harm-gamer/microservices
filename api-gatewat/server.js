@@ -11,6 +11,7 @@ app.use(express.json());
 // Proxy requests to User Service
 app.use('/api/auth', createProxyMiddleware({ target: 'http://localhost:5001', changeOrigin: true }));
 app.use('/api/products',authMiddleware, createProxyMiddleware({ target: 'http://localhost:5002', changeOrigin: true }));
+app.use('/api/orders', authMiddleware, createProxyMiddleware({ target: 'http://localhost:5003', changeOrigin: true }));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`API Gateway running on port ${PORT}`));
