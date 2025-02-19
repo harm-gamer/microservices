@@ -8,7 +8,7 @@ const router = express.Router();
 router.post('/', authMiddleware, async (req, res) => {
     try {
       const { name, description, price, stock, category } = req.body;
-      console.log(req.user,req.user.id)
+     
       if (!req.user || !req.user.userId) {
         return res.status(403).json({ message: 'Unauthorized' });
       }

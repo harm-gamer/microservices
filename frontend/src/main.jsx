@@ -8,6 +8,7 @@ import './index.css'
 import App from './App.jsx'
 import AuthProvider from './context/AuthContext.jsx'
 import {ToastContainer} from "react-toastify"
+import Men from './Collections/Men.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -15,12 +16,6 @@ createRoot(document.getElementById('root')).render(
     <BrowserRouter>
     <ToastContainer />
      <App />
-     <Routes>
-      <Route  path="/" element={<Homepage/>}/>
-      <Route path="/signup" element={<SignUp/>} />
-      <Route path="/login" element={<Login/>} />
-</Routes>
- 
     </BrowserRouter>
     </AuthProvider>
   </StrictMode>,

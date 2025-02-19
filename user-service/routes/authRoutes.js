@@ -1,7 +1,8 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const User = require("../models/user");
+const authMiddleware = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
@@ -32,5 +33,28 @@ router.post('/login', async (req, res) => {
 
   res.json({ token, user: { id: user._id, name: user.name, email: user.email, role: user.role } });
 });
+
+router.post("/logout",async (req, res) => {
+	try {
+		const Token = req.header('Authorization');
+		if (Token) {
+			const decoded = jwt.verify(Token, process.env.JWT_SECRET);
+		}
+    localStorage.removeItem('token');
+		res.json({ message: "Logged out successfully" });
+	} catch (error) {
+		console.log("Error in logout controller", error.message);
+		res.status(500).json({ message: "Server error", error: error.message });
+	}
+});
+router.post('/profile',authMiddleware, async (req,res) =>{
+  try {
+		const userId = req.user.userId;
+    const user = await User.findOne({_id : userId})
+    res.json(user);
+	} catch (error) {
+		res.status(500).json({ message: "Server error", error: error.message });
+	}
+})
 
 module.exports = router;
