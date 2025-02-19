@@ -1,19 +1,24 @@
 const express = require('express');
 const Product = require('../models/product.js');
-const upload = require('../middlewares/upload.js')
+const cloudinary = require("../utils/cloudinay.js")
 const authMiddleware = require('../middlewares/authMiddleware');
 const router = express.Router();
+
 
 // Create a product with image upload
 router.post('/', authMiddleware, async (req, res) => {
     try {
-      const { name, description, price, stock, category } = req.body;
-     
+      const { name, description, price, category,image } = req.body;
+      let cloudinaryResponse = null;
+
+      if (image) {
+        cloudinaryResponse = await cloudinary.uploader.upload(image, { folder: "products" });
+      }
       if (!req.user || !req.user.userId) {
         return res.status(403).json({ message: 'Unauthorized' });
       }
       
-      const product = await Product.create({ name, description, price, stock, category});
+      const product = await Product.create({ name, description, price, image:cloudinaryResponse?.secure_url ? cloudinaryResponse.secure_url : "",category});
       res.status(201).json(product);
     } catch (error) {
       res.status(500).json({ message: 'Error creating product', error });
