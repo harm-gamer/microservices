@@ -7,7 +7,9 @@ import { useUserStore } from '../store/useUserStore';
 const Navbar = () => {
 
   const { user, logout } = useUserStore();
-	const isAdmin = user?.role === "admin";
+	const isAdmin = user?.user.role === "admin";
+  console.log(user?.role)
+  console.log(user);
   const cart = 3;
 
 

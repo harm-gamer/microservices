@@ -25,6 +25,7 @@ export const useUserStore = create((set,get) =>({
 		try {
 			const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`, { email, password });
 			set({ user: res.data, loading: false });
+            localStorage.setItem('token',res.data.token);
 		} catch (error) {
 			set({ loading: false });
 			toast.error(error.response.data.message || "An error occurred");
