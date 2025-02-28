@@ -5,7 +5,7 @@ const cors = require('cors');
 const productRoutes = require('./routes/productRoutes');
 
 const app = express();
-app.use(express.json());
+app.use(express.json({limit : "10mb"}));
 app.use(cors());
 
 
