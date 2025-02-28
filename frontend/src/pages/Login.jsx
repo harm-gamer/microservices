@@ -3,9 +3,6 @@ import { useState } from 'react';
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { LogIn, Mail, Lock, ArrowRight, Loader } from "lucide-react";
-import {useNavigate }from "react-router-dom"
-import {toast}from "react-toastify"
-import axios from "axios"
 import { useUserStore } from '../store/useUserStore';
 const Login = () => {
   
@@ -21,23 +18,6 @@ const Login = () => {
 	};
 
   
-    // const handleLogin = async (e) => {
-    //   e.preventDefault();
-    //   console.log(password);
-    //   try {
-    //     const { data } = await axios.post(
-    //       `${import.meta.env.VITE_API_URL}/api/auth/login`,
-    //       { email, password }
-    //     );
-    //    console.log(data);
-      
-    //     localStorage.setItem("token", data.token);
-    //     toast.success("Login Successful!");
-    //     navigate("/");
-    //   } catch (error) {
-    //     toast.error("Invalid credentials");
-    //   }
-    // };
     return (
       <div className='flex flex-col justify-center py-12 sm:px-6 lg:px-8'>
 			<motion.div

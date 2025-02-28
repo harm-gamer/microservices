@@ -33,7 +33,17 @@ router.post('/login', async (req, res) => {
 
   res.json({ token, user: { id: user._id, name: user.name, email: user.email, role: user.role } });
 });
-
+router.get('/profile',authMiddleware, async (req,res) =>{
+  try {
+		const userId = req.user.userId;
+    console.log(req.user);
+    console.log( userId)
+    const user = await User.findOne({_id : userId})
+    res.json(user);
+	} catch (error) {
+		res.status(500).json({ message: "Server error", error: error.message });
+	}
+})
 router.post("/logout",async (req, res) => {
 	try {
 		const Token = req.header('Authorization');
@@ -47,14 +57,6 @@ router.post("/logout",async (req, res) => {
 		res.status(500).json({ message: "Server error", error: error.message });
 	}
 });
-router.post('/profile',authMiddleware, async (req,res) =>{
-  try {
-		const userId = req.user.userId;
-    const user = await User.findOne({_id : userId})
-    res.json(user);
-	} catch (error) {
-		res.status(500).json({ message: "Server error", error: error.message });
-	}
-})
+
 
 module.exports = router;

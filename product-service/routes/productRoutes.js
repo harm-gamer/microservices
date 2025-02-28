@@ -37,7 +37,7 @@ router.post('/',authMiddleware, async (req, res) => {
 
 // Get all products
 router.get('/', async (req, res) => {
-  const products = await Product.find();
+  const products = await Product.find({});
   res.json({products});
 });
 
@@ -46,9 +46,9 @@ router.get('/', async (req, res) => {
 router.get('/category/:category',async (req,res) =>{
   try{
     const category = req.params.category;
-
-    const product = await Product.find({category : category});
-
+    
+    const product = await Product.find({category});
+   
     res.json({product})
   }catch(err){
     res.status(500).json({message : err})

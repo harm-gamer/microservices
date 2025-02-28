@@ -7,10 +7,12 @@ import { useEffect } from 'react'
 import LoadingSpinner from './components/LoadingSpinner'
 import { useUserStore } from './store/useUserStore'
 import AdminPage from './pages/AdminPage'
+import CategoryPage from './pages/CategoryPage'
 
 
 function App() {
   const { user, checkAuth, checkingAuth } = useUserStore();
+  
 	useEffect(() => {
 		checkAuth();
 	}, [checkAuth]);
@@ -37,6 +39,7 @@ function App() {
 						path='/secret-dashboard'
 						element={user?.user.role === "admin" ? <AdminPage /> : <Navigate to='/login' />}
 					/>
+					<Route path='/category/:category' element={<CategoryPage />} />
 </Routes>
 </div>
 </div>
