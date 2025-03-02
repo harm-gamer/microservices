@@ -62,7 +62,7 @@ export const useUserStore = create((set,get) =>({
                     }
                 }
             );
-            console.log(response)
+            console.log(response.data)
 			set({ user: response.data, checkingAuth: false });
 		} catch (error) {
 			toast.error("occured in profile")
