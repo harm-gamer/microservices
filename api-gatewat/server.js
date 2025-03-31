@@ -1,12 +1,17 @@
 require('dotenv').config();
 const express = require('express');
-const { createProxyMiddleware } = require('http-proxy-middleware');
+// const { createProxyMiddleware } = require('http-proxy-middleware');
+const {createProxyMiddleware} = require("express-http-proxy");
 const cors = require('cors');
 const authMiddleware = require('./Middleware/authmiddleware');
 
 const app = express();
-app.use(cors());
-app.use(express.json()); // Increase body limit
+app.use(cors({
+    origin: "*", 
+    credentials: true,
+})); // Allow requests from the API Gateway
+app.use(express.json({limit : '50mb'})); // Increase body limit
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 
 // const serviceProxy = Object.assign({}, { target: "http://localhost:5001/", changeOrigin: true });
@@ -14,7 +19,14 @@ app.use(express.json()); // Increase body limit
 app.use('/api/auth', createProxyMiddleware({
     target: 'http://localhost:5001', // Make sure this is correct
     changeOrigin: true,
-    pathRewrite: { '^/api/auth': '' }   
+    onProxyReq: (proxyReq, req, res) => {
+        console.log(`Proxying request to: ${proxyReq.path}`);
+    },
+    onError: (err, req, res) => {
+        console.error("Proxy Error:", err);
+        res.status(500).send("Proxy error");
+    }
+    
 }));
 // app.use('/api/auth', createProxyMiddleware(serviceProxy));
 // app.use('/api/products',authMiddleware, createProxyMiddleware({ target: 'http://localhost:5002', changeOrigin: true }));

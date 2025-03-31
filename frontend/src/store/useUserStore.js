@@ -13,10 +13,10 @@ export const useUserStore = create((set,get) =>({
 		set({ loading: true });
         
         try {
-			const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, { name, email, password });
+			const res = await axios.post("http://localhost:5000/api/auth/register", { name, email, password });
 			set({ user: res.data, loading: false });
             localStorage.setItem("token", res.data.token);
-            console.log(res.data);
+           
 		} catch (error) {
 			set({ loading: false });
 			toast.error("An error occurred");
@@ -26,13 +26,13 @@ export const useUserStore = create((set,get) =>({
 		set({ loading: true });
     
 		try {
-			const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`, { email, password },
-            //   {
-            //     headers : {
-            //        Authorization: `Bearer ${token}`,  // Attach token
+			const res = await axios.post("http://localhost:5000/api/auth/login", { email, password },
+              {
+                headers : {
+                  'Content-Type' : 'application/json'
                  
-            //     }
-            //   }  
+                }
+              }  
             );
 
 			set({ user: res.data, loading: false });
@@ -62,7 +62,7 @@ export const useUserStore = create((set,get) =>({
                     }
                 }
             );
-            console.log(response.data)
+            
 			set({ user: response.data, checkingAuth: false });
 		} catch (error) {
 			toast.error("occured in profile")

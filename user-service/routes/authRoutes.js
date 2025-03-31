@@ -36,8 +36,7 @@ router.post('/login', async (req, res) => {
 router.get('/profile',authMiddleware, async (req,res) =>{
   try {
 		const userId = req.user._id;
-    console.log(req.user);
-    console.log( userId)
+   
     const user = await User.findOne({_id : userId})
     res.json(user);
 	} catch (error) {

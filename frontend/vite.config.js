@@ -11,11 +11,4 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src'),
     },
   },
-  server:{
-    proxy : {
-      "/api/auth" : {
-        target : "http://localhost:5001"
-      }
-    }
-  }
 })
