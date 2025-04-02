@@ -9,7 +9,7 @@ export const useProductStore =  create((set) =>({
 	createProduct: async (productData) => {
 		set({ loading: true });
 		try {
-			const res = await axios.post("http://localhost:5002/api/products", productData,{
+			const res = await axios.post("http://localhost:5000/api/products", productData,{
                 headers : {
                     "Authorization" : localStorage.getItem("token")
                 }
@@ -27,7 +27,7 @@ export const useProductStore =  create((set) =>({
 	getAllProducts : async () =>{
 		set({loading : true});
 		try{
-           const res = await axios.get("http://localhost:5002/api/products");
+           const res = await axios.get("http://localhost:5000/api/products");
 		   console.log(res.data);
 		   set({products : res.data.products,loading : false})
 		}catch(error){
@@ -39,7 +39,7 @@ export const useProductStore =  create((set) =>({
 	getProductByCategory : async (category) =>{
       set({loading : true});
 	  try {
-		const res = await axios.get(`http://localhost:5002/api/products/category/${category}`)
+		const res = await axios.get(`http://localhost:5000/api/products/category/${category}`)
 		
 		set({products : res.data.product, loading : false})
 	  }catch(err){
@@ -50,7 +50,7 @@ export const useProductStore =  create((set) =>({
 	deleteProduct : async (productId) =>{
 		set({loading: true});
 		try{
-          const res = await axios.delete(`http://localhost:5002/api/products/${productId}`);
+          const res = await axios.delete(`http://localhost:5000/api/products/${productId}`);
 		  set((prevState) => ({
 			products : prevState.products.filter((product) => productId !== product._id ),
 			loading : false

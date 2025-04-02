@@ -4,7 +4,7 @@ const authMiddleware = require("../middleware/authMiddleware");
 const router = express.Router();
 
 
-router.post("/cart",authMiddleware,async (req,res) =>{
+router.post("/cartItem",authMiddleware,async (req,res) =>{
     try{
       const productId = req.body;
       const user = req.user;
@@ -24,12 +24,21 @@ router.post("/cart",authMiddleware,async (req,res) =>{
         res.status(402).json({msg : "Failed to add cart"})
     }
 })
-router.get("/post",authMiddleware,async(req,res) =>{
-  try{
-    
-  }catch(err){
-    res.status(404).json({msg : err.msg})
-  }
+router.get("/cartItem",authMiddleware,async(req,res) =>{
+  try {
+		const products = await Product.find({ _id: { $in: req.user.cartItems } });
+
+		// add quantity for each product
+		const cartItems = products.map((product) => {
+			const item = req.user.cartItems.find((cartItem) => cartItem.id === product.id);
+			return { ...product.toJSON(), quantity: item.quantity };
+		});
+
+		res.json(cartItems);
+	} catch (error) {
+		console.log("Error in getCartProducts controller", error.message);
+		res.status(500).json({ message: "Server error", error: error.message });
+	}
 })
 
 module.exports = router;

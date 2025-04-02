@@ -16,15 +16,8 @@ app.use(cors({
 mongoose.connect(process.env.MONGO_URI).then(() => console.log('User Service Connected to DB'))
   .catch(err => console.log(err));
 
-  app.use((req, res, next) => {
-    req.on('aborted', () => {
-        console.warn("Request aborted by the client!");
-    });
-    next();
-});
-
-app.use('/api/auth', authRoutes);
-app.use('/api/user',cartRoutes)
+app.use('/', authRoutes);
+app.use('/cart',cartRoutes)
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`User Service running on port ${PORT}`));
