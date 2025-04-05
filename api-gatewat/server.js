@@ -3,7 +3,7 @@ const express = require('express');
 // const { createProxyMiddleware } = require('http-proxy-middleware');
 const expressProxy = require("express-http-proxy");
 const cors = require('cors');
-const authMiddleware = require('./Middleware/authmiddleware');
+
 
 const app = express();
 app.use(cors({
@@ -18,6 +18,7 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use("/api/auth",expressProxy("http://localhost:5001"));
 app.use("/api/products",expressProxy("http://localhost:5002"));
 app.use("/api/user",expressProxy("http://localhost:5000"))
+app.use("product/cart",expressProxy("http://localhost:5000"));
 
 
 const PORT = process.env.PORT || 5000;
