@@ -22,22 +22,36 @@ export const useCartStore = create((set,get) => ({
     }
    },
    getCart : async () =>{
-
+  
     try{
-
+       
+        const res = await axios.get(`http://localhost:5000:/product/cart/cartItem`,{
+            headers : localStorage.getItem('token')
+        });
+        console.log(res.data);
+        set({cart : res.data})
+        get.calculatetotals();
     }catch(error){
+        set({cart : []})
         toast.error(error.message);
     }
-       set({loading : true})
-       const res = await axios.get(`http://localhost:5000`);
-       const cart = res.data;
-       toast.success("Cart Item of User");
-       set({cart : res.data,loading: false})
+      
    },
    removeFromCart  : () =>{
 
    },
    updateQuantity : () =>{
+
+   },
+   calculatetotals : () =>{
+
+     const {cart } = get();
+
+     const subtotals = cart.reduce((sum,item)=> sum + item.price * item.qunatity,0);
+   
+      const total = subtotals;
+
+      set({total});
 
    }
 }))
