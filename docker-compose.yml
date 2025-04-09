@@ -1,0 +1,84 @@
+version: '3.8'
+
+services:
+  user-db:
+    image: postgres:14
+    container_name: user-db
+    environment:
+      POSTGRES_DB: users
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+    volumes:
+      - user-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  product-db:
+    image: postgres:14
+    container_name: product-db
+    environment:
+      POSTGRES_DB: products
+      POSTGRES_USER: product
+      POSTGRES_PASSWORD: pass
+    volumes:
+      - product-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  user-service:
+    build: ./user-service
+    container_name: user-service
+    environment:
+      DB_HOST: user-db
+      DB_PORT: 5432
+      DB_USER: user
+      DB_PASSWORD: pass
+      DB_NAME: users
+    depends_on:
+      - user-db
+    networks:
+      - app-network
+
+  product-service:
+    build: ./product-service
+    container_name: product-service
+    environment:
+      DB_HOST: product-db
+      DB_PORT: 5432
+      DB_USER: product
+      DB_PASSWORD: pass
+      DB_NAME: products
+    depends_on:
+      - product-db
+    networks:
+      - app-network
+
+  api-gateway:
+    build: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080" # or whatever port your gateway uses
+    depends_on:
+      - user-service
+      - product-service
+    networks:
+      - app-network
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    environment:
+      REACT_APP_API_URL: http://localhost:8080
+    depends_on:
+      - api-gateway
+    networks:
+      - app-network
+
+volumes:
+  user-data:
+  product-data:
+
+networks:
+  app-network:
