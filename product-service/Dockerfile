@@ -2,10 +2,10 @@ FROM node:23-alpine
 
 WORKDIR /app
 
-COPY package* .
+COPY product-service/package*.json ./
 
 RUN npm install
-COPY . .
+COPY product-service/ ./
 
 
 EXPOSE 5002
