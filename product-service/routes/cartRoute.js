@@ -2,7 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 const authMiddleware = require("../middlewares/authMiddleware.js");
-const Product = require("../models/product.js");
+const Product = require("../models/Product.js");
 
 router.get("/cartItem",authMiddleware,async(req,res) =>{
     try {
