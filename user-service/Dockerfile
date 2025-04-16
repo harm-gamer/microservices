@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY user-service/package*.json  ./
 
-COPY user-service/ ./
+COPY user-service/  ./
 RUN npm install
 
 EXPOSE 5001

@@ -1,10 +1,10 @@
 FROM node:23-alpine
 
-WORKDIR /app
+WORKDIR  /app
 
-COPY api-gatewat/package*.json  ./
+COPY api-gatewat/package*.json   ./
 
-COPY api-gatewat/ ./
+COPY api-gatewat/  ./
 RUN npm install
 
 EXPOSE 5000
