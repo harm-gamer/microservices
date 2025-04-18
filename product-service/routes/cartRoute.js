@@ -4,14 +4,21 @@ const router = express.Router();
 const authMiddleware = require("../middlewares/authMiddleware.js");
 const Product = require("../models/Product.js");
 
-router.get("/cartItem",authMiddleware,async(req,res) =>{
+router.get("/cart-item",authMiddleware,async(req,res) =>{
+   
+    console.log(req.user);
     try {
-        console.log(req.user);
-          const products = await Product.find({ _id: { $in: req.user.cartItems } });
-  
+         console.log(req.user.cartItems)
+        // let productIds = req.user.cartItems.map(item => item.id);
+        let products = await Product.find({ _id: { $in: req.user.cartItems } });
+        console.log(products)
+        
+
           // add quantity for each product
           const cartItems = products.map((product) => {
-              const item = req.user.cartItems.find((cartItem) => cartItem._id === product.id);
+            console.log(product);
+
+              let item = req.user.cartItems.find((cartItem) => cartItem._id === product.id);
               console.log(item);
               return { ...product.toJSON(), quantity: item.quantity };
           });

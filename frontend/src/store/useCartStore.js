@@ -10,9 +10,13 @@ export const useCartStore = create((set,get) => ({
    addtoCart : async (product) =>{
 
     try{
+        console.log(product);
+        console.log(localStorage.getItem('token'))
         set({loading : true})
-        const res = await axios.post(`http://localhost:5000/api/auth/cart`,{ProductId : product._id},{
-            headers : localStorage.getItem('token')
+        const res = await axios.post(`http://localhost:5000/api/user/cart/cartItem`,{ProductId : product._id},{
+            headers : {
+                Authorization : localStorage.getItem('token')
+            }
         })
         toast.success("Product added to cart");
         set({cart : res.data,loading : false})
@@ -26,7 +30,10 @@ export const useCartStore = create((set,get) => ({
     try{
        
         const res = await axios.get(`http://localhost:5000:/product/cart/cartItem`,{
-            headers : localStorage.getItem('token')
+            headers :{
+                
+                Authorization : localStorage.getItem('token')
+            }
         });
         console.log(res.data);
         set({cart : res.data})

@@ -14,7 +14,7 @@ mongoose.connect(process.env.MONGO_URI).then(() => console.log('Product Service 
   .catch(err => console.log(err));
 
 app.use('/', productRoutes);
-app.use("/", cartRoute)
+app.use("/user-product", cartRoute)
 
 const PORT = process.env.PORT || 5002;
 app.listen(PORT, () => console.log(`Product Service running on port ${PORT}`));

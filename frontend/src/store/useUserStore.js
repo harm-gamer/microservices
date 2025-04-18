@@ -58,7 +58,7 @@ export const useUserStore = create((set,get) =>({
 			const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/profile`,
                 {
                     headers : {
-                        Authorization: localStorage.getItem("token"),  // Attach token
+                        Authorization: localStorage.getItem(token),  // Attach token
                     }
                 }
             );
