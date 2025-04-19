@@ -7,8 +7,8 @@ const router = express.Router();
 
 // Create a product with image upload
 router.post('/',authMiddleware, async (req, res) => {
+  console.log(req.body);
     try {
-      console.log(req.body);
       let { name, description, price, category,image} = req.body;
   
       if(!image){
@@ -24,7 +24,7 @@ router.post('/',authMiddleware, async (req, res) => {
         return res.status(404).json({massage : "cloudresponse not fount"})
       }
       
-      if (!req.user || !req.user.userId) {
+      if (!req.user) {
         return res.status(403).json({ message: 'Unauthorized' });
       }
       // console.log(cloudinaryResponse?.secure_url);

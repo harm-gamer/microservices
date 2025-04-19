@@ -13,6 +13,10 @@ const authMiddleware = async(req, res, next) => {
   try {
     console.log(process.env.JWT_SECRET);
     const decoded = jwt.verify(token.replace('Bearer ', '').trim(), process.env.JWT_SECRET);
+    if(!decoded) {
+      return res.status(401).json({ message: 'Invalid token' });
+    }
+    console.log(decoded);
     // const user = await User.findById(decoded.userId).select("-password");
     let response = await axios.get("http://localhost:5000/api/auth/profile",{
       headers: { Authorization: `Bearer ${token}` }

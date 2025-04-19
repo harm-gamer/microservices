@@ -13,7 +13,7 @@ app.use(cors());
 mongoose.connect(process.env.MONGO_URI).then(() => console.log('Product Service Connected to DB'))
   .catch(err => console.log(err));
 
-app.use('/create', productRoutes);
+app.use('/', productRoutes);
 app.use("/user-product", cartRoute);
 
 const PORT = process.env.PORT || 5002;
