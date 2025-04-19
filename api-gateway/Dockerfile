@@ -2,9 +2,9 @@ FROM node:23-alpine
 
 WORKDIR  /app
 
-COPY api-gatewat/package*.json   ./
+COPY api-gateway/package*.json   ./
 
-COPY api-gatewat/  ./
+COPY api-gateway/  ./
 RUN npm install
 
 EXPOSE 5000

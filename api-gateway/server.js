@@ -15,10 +15,10 @@ app.use(express.json({limit : '50mb'})); // Increase body limit
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 
-app.use("/api/auth",expressProxy("http://localhost:5001"));
-app.use("/api/products",expressProxy("http://localhost:5002"));
-app.use("/api/user",expressProxy("http://localhost:5001"))
-app.use("/product/cart",expressProxy("http://localhost:5002"));
+app.use("/api/auth",expressProxy("http://user-service:5001"));
+app.use("/api/products",expressProxy("http://product-service:5002"));
+app.use("/api/user",expressProxy("http://user-service:5001"))
+app.use("/product/cart",expressProxy("http://product-service:5002"));
 
 
 const PORT = process.env.PORT || 5000;
